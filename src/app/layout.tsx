@@ -9,7 +9,18 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Planhai",
-  description: "Planhai Application",
+  description: "Planhai — Share and discover AI-powered creations",
+  openGraph: {
+    title: "Planhai",
+    description: "Planhai — Share and discover AI-powered creations",
+    siteName: "Planhai",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Planhai",
+    description: "Planhai — Share and discover AI-powered creations",
+  },
 };
 
 export default async function RootLayout({

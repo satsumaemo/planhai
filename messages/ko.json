@@ -5,6 +5,7 @@
     "upload": "업로드",
     "login": "로그인",
     "search": "검색...",
+    "dashboard": "대시보드",
     "myProfile": "내 프로필",
     "settings": "설정",
     "logout": "로그아웃"
@@ -47,7 +48,30 @@
     "title": "탐색",
     "allCategories": "전체",
     "noResults": "해당 카테고리에 창작물이 없습니다",
-    "searchPlaceholder": "창작물 검색..."
+    "searchPlaceholder": "창작물 검색...",
+    "toolFilter": "도구 / AI 모델 필터",
+    "allTools": "전체"
+  },
+  "dashboard": {
+    "title": "대시보드",
+    "totalCreations": "전체 창작물",
+    "totalViews": "전체 조회수",
+    "totalLikes": "전체 좋아요",
+    "myCreations": "내 창작물",
+    "sortDate": "최신순",
+    "sortViews": "조회순",
+    "sortLikes": "좋아요순",
+    "noCreations": "아직 창작물이 없습니다",
+    "createFirst": "첫 창작물 만들기"
+  },
+  "share": {
+    "shareTwitter": "X에 공유",
+    "shareLinkedin": "LinkedIn에 공유",
+    "copyLink": "링크 복사",
+    "copied": "복사됨!",
+    "embed": "임베드",
+    "embedCode": "임베드 코드",
+    "copyEmbed": "코드 복사"
   },
   "ads": {
     "label": "Ad",

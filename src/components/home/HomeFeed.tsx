@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { CATEGORIES } from "@/lib/constants/categories";
+import { calculateActivityScore, calculateProfileCompleteness } from "@/lib/activityScore";
 import AdNative from "@/components/ads/AdNative";
 
 type Tab = "trending" | "latest" | "following";
@@ -22,10 +23,13 @@ interface Creation {
   view_count: number;
   like_count: number;
   created_at: string;
+  user_id?: string;
   profiles: {
     id: string;
     nickname: string | null;
     avatar_url: string | null;
+    bio?: string | null;
+    website?: string | null;
   } | null;
 }
 
@@ -60,7 +64,7 @@ export default function HomeFeed({ userId }: { userId: string | null }) {
       try {
         let query = supabase
           .from("creations")
-          .select("*, profiles:user_id(id, nickname, avatar_url)")
+          .select("*, profiles:user_id(id, nickname, avatar_url, bio, website)")
           .eq("visibility", "public");
 
         if (categoryFilter) {
@@ -122,7 +126,39 @@ export default function HomeFeed({ userId }: { userId: string | null }) {
             setHasMore(false);
           }
         } else {
-          const rows = (data as Creation[]) ?? [];
+          let rows = (data as Creation[]) ?? [];
+
+          // Apply Activity Score re-ranking for trending tab
+          if (tab === "trending" && rows.length > 0) {
+            const creatorMap = new Map<string, { uploads: number; likesReceived: number; profile: any }>();
+            for (const row of rows) {
+              const uid = (row as any).user_id;
+              if (!uid) continue;
+              if (!creatorMap.has(uid)) {
+                creatorMap.set(uid, { uploads: 0, likesReceived: 0, profile: row.profiles });
+              }
+              const entry = creatorMap.get(uid)!;
+              entry.uploads += 1;
+              entry.likesReceived += (row.like_count ?? 0);
+            }
+
+            rows = rows
+              .map((row) => {
+                const uid = (row as any).user_id;
+                const creator = uid ? creatorMap.get(uid) : null;
+                const profile = creator?.profile ?? {};
+                const score = calculateActivityScore({
+                  uploadCount: creator?.uploads ?? 0,
+                  likesReceived: creator?.likesReceived ?? 0,
+                  forkCount: 0,
+                  profileCompleteness: calculateProfileCompleteness(profile),
+                });
+                return { ...row, _score: (row.view_count ?? 0) + score };
+              })
+              .sort((a, b) => (b as any)._score - (a as any)._score)
+              .map(({ _score, ...rest }: any) => rest as Creation);
+          }
+
           if (reset) {
             setItems(rows);
           } else {

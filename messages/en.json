@@ -5,6 +5,7 @@
     "upload": "Upload",
     "login": "Login",
     "search": "Search...",
+    "dashboard": "Dashboard",
     "myProfile": "My Profile",
     "settings": "Settings",
     "logout": "Logout"
@@ -47,7 +48,30 @@
     "title": "Explore",
     "allCategories": "All",
     "noResults": "No creations in this category",
-    "searchPlaceholder": "Search creations..."
+    "searchPlaceholder": "Search creations...",
+    "toolFilter": "Filter by Tool / AI Model",
+    "allTools": "All"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalCreations": "Total Creations",
+    "totalViews": "Total Views",
+    "totalLikes": "Total Likes",
+    "myCreations": "My Creations",
+    "sortDate": "Newest",
+    "sortViews": "Most Viewed",
+    "sortLikes": "Most Liked",
+    "noCreations": "No creations yet",
+    "createFirst": "Create your first"
+  },
+  "share": {
+    "shareTwitter": "Share on X",
+    "shareLinkedin": "Share on LinkedIn",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "embed": "Embed",
+    "embedCode": "Embed Code",
+    "copyEmbed": "Copy Code"
   },
   "ads": {
     "label": "Ad",

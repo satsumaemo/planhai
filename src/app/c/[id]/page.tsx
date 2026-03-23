@@ -10,6 +10,7 @@ import LikeButton from "@/components/community/LikeButton";
 import BookmarkButton from "@/components/community/BookmarkButton";
 import CommentSection from "@/components/community/CommentSection";
 import ForkButton from "@/components/community/ForkButton";
+import ShareButtons from "@/components/community/ShareButtons";
 
 interface Creation {
   id: string;
@@ -213,6 +214,15 @@ export default function CreationDetailPage() {
                 </span>
               )}
             </span>
+          </div>
+
+          {/* Share buttons */}
+          <div className="mb-6">
+            <ShareButtons
+              url={typeof window !== "undefined" ? window.location.href : `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/c/${creation.id}`}
+              title={creation.title}
+              description={creation.description ?? undefined}
+            />
           </div>
 
           {/* Comments */}

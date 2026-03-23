@@ -95,6 +95,13 @@ export default function HeaderClient({ user }: { user: User | null }) {
                     </p>
                   </div>
                   <Link
+                    href="/dashboard"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    {t("dashboard")}
+                  </Link>
+                  <Link
                     href={`/profile/${user.user_metadata?.nickname ?? user.email?.split("@")[0] ?? "me"}`}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800"
                     onClick={() => setDropdownOpen(false)}

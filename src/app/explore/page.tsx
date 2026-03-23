@@ -33,12 +33,18 @@ export default function ExplorePage() {
   const supabase = createClient();
 
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  const [toolFilter, setToolFilter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [items, setItems] = useState<Creation[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
   const loaderRef = useRef<HTMLDivElement>(null);
+
+  // Collect all tools from categories (or from selected category)
+  const availableTools = categoryFilter
+    ? CATEGORIES.find((c) => c.key === categoryFilter)?.tools ?? []
+    : [...new Set(CATEGORIES.flatMap((c) => c.tools))];
 
   const fetchData = useCallback(
     async (pageNum: number, reset = false) => {
@@ -54,6 +60,10 @@ export default function ExplorePage() {
 
       if (categoryFilter) {
         query = query.eq("category", categoryFilter);
+      }
+
+      if (toolFilter) {
+        query = query.contains("tools", [toolFilter]);
       }
 
       if (searchQuery.trim()) {
@@ -85,7 +95,7 @@ export default function ExplorePage() {
       setHasMore(rows.length === PAGE_SIZE);
       setLoading(false);
     },
-    [supabase, categoryFilter, searchQuery]
+    [supabase, categoryFilter, toolFilter, searchQuery]
   );
 
   // Reset on filter/search change
@@ -93,7 +103,7 @@ export default function ExplorePage() {
     setPage(0);
     setHasMore(true);
     fetchData(0, true);
-  }, [categoryFilter, searchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [categoryFilter, toolFilter, searchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Load more
   useEffect(() => {
@@ -191,6 +201,40 @@ export default function ExplorePage() {
           );
         })}
       </div>
+
+      {/* Tool / AI Model filter */}
+      {availableTools.length > 0 && (
+        <div className="mb-8">
+          <h3 className="mb-3 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+            {t("toolFilter")}
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setToolFilter(null)}
+              className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                toolFilter === null
+                  ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+              }`}
+            >
+              {t("allTools")}
+            </button>
+            {availableTools.map((tool) => (
+              <button
+                key={tool}
+                onClick={() => setToolFilter(toolFilter === tool ? null : tool)}
+                className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                  toolFilter === tool
+                    ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                }`}
+              >
+                {tool}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Results grid */}
       {items.length === 0 && !loading ? (
