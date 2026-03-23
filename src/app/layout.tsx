@@ -8,8 +8,8 @@ import AdScript from "@/components/ads/AdScript";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NextHub",
-  description: "NextHub Application",
+  title: "Planhai",
+  description: "Planhai Application",
 };
 
 export default async function RootLayout({

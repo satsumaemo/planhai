@@ -19,10 +19,10 @@
     "design": "Design",
     "marketing": "Marketing",
     "business": "Business",
-    "copyright": "© {year} NextHub. All rights reserved."
+    "copyright": "© {year} Planhai. All rights reserved."
   },
   "login": {
-    "title": "NextHub",
+    "title": "Planhai",
     "subtitle": "Sign in to get started",
     "google": "Continue with Google",
     "github": "Continue with GitHub",

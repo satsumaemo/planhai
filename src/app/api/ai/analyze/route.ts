@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       ? `Available sub_category keys for "${category}": ${(VALID_SUB_CATEGORY_KEYS[category] ?? []).join(", ")}`
       : "Pick the best matching category first, then pick its sub_category.";
 
-    const prompt = `You are a content analyzer for a creative platform called NextHub.
+    const prompt = `You are a content analyzer for a creative platform called Planhai.
 Analyze the following content and return ONLY a valid JSON object (no markdown, no code fences).
 
 Content URL: ${fileUrl}

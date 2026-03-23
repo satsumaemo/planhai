@@ -9,7 +9,11 @@
       "Bash(printf \"No\\\\nNo\\\\n\")",
       "Bash(npm init:*)",
       "Bash(npm install:*)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo:*)",
+      "Bash(vercel:*)",
+      "Bash(npm i:*)"
     ]
   }
 }

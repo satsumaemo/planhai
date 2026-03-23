@@ -38,7 +38,7 @@ export default function HeaderClient({ user }: { user: User | null }) {
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4">
         {/* Logo */}
         <Link href="/" className="shrink-0 text-xl font-bold text-gray-900 dark:text-white">
-          NextHub
+          Planhai
         </Link>
 
         {/* Search - desktop */}

@@ -1,10 +1,10 @@
 export const openApiSpec = {
   openapi: "3.0.3",
   info: {
-    title: "NextHub API",
+    title: "Planhai API",
     version: "1.0.0",
     description:
-      "Public REST API for NextHub — a creative platform for sharing and discovering creations.",
+      "Public REST API for Planhai — a creative platform for sharing and discovering creations.",
   },
   servers: [{ url: "/api/v1" }],
   security: [{ bearerAuth: [] }],

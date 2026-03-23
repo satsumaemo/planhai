@@ -1,10 +1,10 @@
-# NextHub
+# Planhai
 
 **AI 창작물 공유 플랫폼 | AI Creation Sharing Platform**
 
-NextHub는 AI로 만든 창작물을 업로드하고 공유하는 플랫폼입니다. Gemini AI가 콘텐츠를 자동 분석하여 메타데이터를 생성하고, 8개 카테고리로 분류합니다.
+Planhai는 AI로 만든 창작물을 업로드하고 공유하는 플랫폼입니다. Gemini AI가 콘텐츠를 자동 분석하여 메타데이터를 생성하고, 8개 카테고리로 분류합니다.
 
-NextHub is a platform for uploading and sharing AI-generated creations. Gemini AI automatically analyzes your content to generate metadata and categorize it across 8 categories.
+Planhai is a platform for uploading and sharing AI-generated creations. Gemini AI automatically analyzes your content to generate metadata and categorize it across 8 categories.
 
 ---
 
@@ -67,8 +67,8 @@ Development, Design, 3D/AR/VR, Media, Document & Business, Template & Prompt, In
 ### Installation | 설치
 
 ```bash
-git clone https://github.com/satsumaemo/nexthub.git
-cd nexthub
+git clone https://github.com/satsumaemo/planhai.git
+cd planhai
 npm install
 ```
 
