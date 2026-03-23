@@ -31,7 +31,12 @@
     "emailPlaceholder": "Email address",
     "magicLink": "Sign in with Magic Link",
     "sending": "Sending...",
-    "checkEmail": "Check your inbox! We sent you a login link."
+    "checkEmail": "Check your inbox! We sent you a login link.",
+    "agreePrefix": "I agree to the",
+    "termsLink": "Terms of Service",
+    "agreeAnd": "and",
+    "privacyLink": "Privacy Policy",
+    "agreeSuffix": "."
   },
   "home": {
     "loggedInAs": "Logged in as: {email}",
@@ -72,6 +77,110 @@
     "embed": "Embed",
     "embedCode": "Embed Code",
     "copyEmbed": "Copy Code"
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: March 23, 2026",
+    "acceptance": {
+      "title": "1. Acceptance of Terms",
+      "body": "By accessing or using Planhai (the \"Service\"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.\n\nPlanhai is an AI-powered creation sharing platform that enables users to upload, share, discover, and collaborate on creative works made with artificial intelligence tools."
+    },
+    "description": {
+      "title": "2. Service Description",
+      "body": "Planhai provides a platform for creators to:\n- Upload and share AI-generated or AI-assisted creations\n- Discover and explore creations by other users\n- Fork (remix) existing creations with attribution\n- Engage with the community through likes, comments, and follows\n- Access public API for integration purposes"
+    },
+    "accounts": {
+      "title": "3. User Accounts",
+      "body": "To use certain features of the Service, you must create an account via Google, GitHub, or email authentication. You are responsible for:\n- Maintaining the confidentiality of your account credentials\n- All activities that occur under your account\n- Providing accurate and current information\n\nYou must be at least 13 years old to create an account."
+    },
+    "userContent": {
+      "title": "4. User Content & Responsibility",
+      "body": "You retain ownership of the content you upload to Planhai. By uploading content, you grant Planhai a non-exclusive, worldwide, royalty-free license to host, display, reproduce, and distribute your content in connection with the Service.\n\nYou are solely responsible for:\n- Ensuring you have the right to upload and share your content\n- The accuracy and legality of your content\n- Compliance with applicable AI tool terms of service\n- Properly attributing AI tools and models used in creation"
+    },
+    "prohibited": {
+      "title": "5. Prohibited Conduct",
+      "body": "You may not use the Service to:\n- Upload content that infringes on intellectual property rights\n- Share illegal, harmful, threatening, abusive, or harassing content\n- Distribute malware, spam, or deceptive content\n- Impersonate other users or entities\n- Attempt to gain unauthorized access to the Service\n- Use the Service for any unlawful purpose\n- Upload deepfakes or AI-generated content designed to deceive\n- Scrape or bulk-download content without authorization\n- Circumvent rate limits or abuse the API"
+    },
+    "intellectualProperty": {
+      "title": "6. Intellectual Property & Copyright",
+      "body": "The Service and its original content (excluding user content) are owned by Planhai and protected by copyright and other intellectual property laws.\n\nIf you believe content on Planhai infringes your copyright, please contact us with:\n- Description of the copyrighted work\n- Location of the infringing content on Planhai\n- Your contact information\n- A statement of good faith belief\n\nWe will investigate and take appropriate action, including removing infringing content."
+    },
+    "thirdParty": {
+      "title": "7. Third-Party Services",
+      "body": "The Service integrates with third-party services including but not limited to:\n- Google and GitHub for authentication\n- Google AdSense for advertising\n- Supabase for data storage and authentication\n- Vercel for hosting\n- Google Gemini for AI analysis\n\nYour use of these services is subject to their respective terms and privacy policies."
+    },
+    "disclaimer": {
+      "title": "8. Disclaimer of Warranties",
+      "body": "The Service is provided \"as is\" and \"as available\" without warranties of any kind, whether express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement.\n\nPlanhai does not warrant that:\n- The Service will be uninterrupted or error-free\n- Content uploaded by users is accurate or reliable\n- AI-generated content meets any specific quality standards"
+    },
+    "limitation": {
+      "title": "9. Limitation of Liability",
+      "body": "To the maximum extent permitted by law, Planhai shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from:\n- Your use of or inability to use the Service\n- Any unauthorized access to your content\n- Any third-party conduct on the Service"
+    },
+    "termination": {
+      "title": "10. Termination",
+      "body": "We may terminate or suspend your account at any time, with or without cause, with or without notice. Upon termination, your right to use the Service will immediately cease.\n\nYou may delete your account at any time by contacting us. Upon deletion, your profile and associated data will be removed, though some content may persist in backups for a limited period."
+    },
+    "changes": {
+      "title": "11. Changes to Terms",
+      "body": "We reserve the right to modify these terms at any time. We will notify users of significant changes by posting a notice on the Service. Your continued use of the Service after changes constitutes acceptance of the new terms."
+    },
+    "governing": {
+      "title": "12. Governing Law",
+      "body": "These terms shall be governed by and construed in accordance with applicable laws, without regard to conflict of law principles."
+    },
+    "contact": {
+      "title": "13. Contact",
+      "body": "If you have questions about these Terms of Service, please contact us at:\nEmail: support@planhai.app"
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: March 23, 2026",
+    "intro": {
+      "title": "1. Introduction",
+      "body": "Planhai (\"we\", \"our\", \"us\") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI-powered creation sharing platform.\n\nBy using Planhai, you consent to the data practices described in this policy."
+    },
+    "collection": {
+      "title": "2. Information We Collect",
+      "body": "We collect the following types of information:\n\nAccount Information:\n- Email address (via direct signup or OAuth providers)\n- Profile information: nickname, bio, website URL, profile photo\n- OAuth data from Google or GitHub (name, email, avatar)\n\nContent Data:\n- Creations you upload (files, URLs, metadata)\n- Comments, likes, bookmarks, and other interactions\n- Tags, categories, and tool/AI model selections\n\nAutomatically Collected Data:\n- IP address and approximate location\n- Browser type and device information\n- Pages visited and actions taken on the Service\n- Timestamps of your activity"
+    },
+    "usage": {
+      "title": "3. How We Use Your Information",
+      "body": "We use your information for:\n\nAccount Management:\n- Creating and maintaining your account\n- Authenticating your identity\n- Managing your profile and settings\n\nService Provision:\n- Displaying your creations and profile to other users\n- Enabling community features (likes, comments, follows, forks)\n- Providing personalized feeds and recommendations\n- Processing API requests with your API key\n\nService Improvement:\n- Analyzing usage patterns to improve the platform\n- Generating aggregated, anonymized statistics\n- Debugging and preventing abuse"
+    },
+    "thirdParty": {
+      "title": "4. Third-Party Services",
+      "body": "We share data with the following third-party services:\n\nGoogle AdSense:\n- May collect browsing data to display personalized ads\n- Subject to Google's Privacy Policy\n\nSupabase:\n- Stores your account data, creations, and interactions\n- Provides authentication services\n- Data stored in secure cloud infrastructure\n\nVercel:\n- Hosts the Planhai application\n- May collect access logs and performance metrics\n\nGoogle Gemini AI:\n- Analyzes uploaded content for metadata suggestions\n- Content sent for analysis is not stored by us beyond the analysis\n\nWe do not sell your personal information to third parties."
+    },
+    "cookies": {
+      "title": "5. Cookies & Local Storage",
+      "body": "We use cookies and local storage for:\n- Authentication session management (required)\n- Language preference (locale cookie)\n- Theme preference (dark/light mode)\n- Google AdSense advertising cookies\n\nEssential cookies are required for the Service to function. You can disable advertising cookies through your browser settings, though this may affect ad personalization.\n\nWe do not use tracking cookies beyond what is required for authentication and the advertising services described above."
+    },
+    "security": {
+      "title": "6. Data Security",
+      "body": "We implement appropriate technical and organizational measures to protect your data, including:\n- Encrypted data transmission (HTTPS/TLS)\n- Secure authentication via OAuth 2.0\n- Row-level security on database access\n- API rate limiting to prevent abuse\n- Regular security reviews\n\nHowever, no method of electronic transmission or storage is 100% secure. We cannot guarantee absolute security of your data."
+    },
+    "retention": {
+      "title": "7. Data Retention",
+      "body": "We retain your data for as long as your account is active. When you delete your account:\n- Your profile information is deleted immediately\n- Your creations and associated data are removed\n- Backup copies may persist for up to 30 days\n- Anonymized, aggregated data may be retained indefinitely"
+    },
+    "rights": {
+      "title": "8. Your Rights (GDPR & Global Privacy)",
+      "body": "You have the right to:\n\nAccess: Request a copy of the personal data we hold about you.\nRectification: Update or correct your personal information through Settings.\nErasure: Request deletion of your account and associated data.\nData Portability: Request your data in a machine-readable format.\nRestriction: Request restriction of processing of your personal data.\nObjection: Object to processing of your personal data for certain purposes.\nWithdraw Consent: Withdraw consent at any time where processing is based on consent.\n\nTo exercise any of these rights, contact us at support@planhai.app. We will respond to requests within 30 days."
+    },
+    "children": {
+      "title": "9. Children's Privacy",
+      "body": "The Service is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If we discover we have collected data from a child under 13, we will delete it promptly."
+    },
+    "changes": {
+      "title": "10. Changes to This Policy",
+      "body": "We may update this Privacy Policy from time to time. We will notify you of significant changes by posting a notice on the Service. Your continued use after changes constitutes acceptance of the updated policy."
+    },
+    "contact": {
+      "title": "11. Contact Us",
+      "body": "If you have questions or concerns about this Privacy Policy or our data practices, please contact us at:\nEmail: support@planhai.app"
+    }
   },
   "ads": {
     "label": "Ad",
