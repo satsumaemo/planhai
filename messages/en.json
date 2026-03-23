@@ -182,6 +182,35 @@
       "body": "If you have questions or concerns about this Privacy Policy or our data practices, please contact us at:\nEmail: support@planhai.app"
     }
   },
+  "report": {
+    "report": "Report",
+    "title": "Report this creation",
+    "subtitle": "Help us keep Planhai safe by reporting content that violates our guidelines.",
+    "reasonSpam": "Spam",
+    "reasonInappropriate": "Inappropriate content",
+    "reasonCopyright": "Copyright infringement",
+    "reasonOther": "Other",
+    "descriptionRequired": "Please describe the issue...",
+    "descriptionOptional": "Additional details (optional)...",
+    "cancel": "Cancel",
+    "submit": "Submit Report",
+    "submitting": "Submitting...",
+    "success": "Report submitted. Thank you for helping keep Planhai safe.",
+    "error": "Failed to submit report. Please try again.",
+    "loginRequired": "Sign in to report"
+  },
+  "admin": {
+    "title": "Content Reports",
+    "filterAll": "All",
+    "status_pending": "Pending",
+    "status_reviewed": "Reviewed",
+    "status_resolved": "Resolved",
+    "noReports": "No reports found",
+    "reportedBy": "by",
+    "deletedCreation": "(Deleted creation)",
+    "markReviewed": "Mark Reviewed",
+    "markResolved": "Mark Resolved"
+  },
   "ads": {
     "label": "Ad",
     "placeholder": "Ad Space"
