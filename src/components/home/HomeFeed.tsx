@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, Fragment } from "react";
+import { useState, useEffect, useRef, useCallback, Fragment, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -32,126 +32,138 @@ interface Creation {
 export default function HomeFeed({ userId }: { userId: string | null }) {
   const t = useTranslations("home");
   const tu = useTranslations("upload");
-  const supabase = createClient();
+
+  // Stable supabase client — never changes across renders
+  const supabase = useMemo(() => createClient(), []);
 
   const [tab, setTab] = useState<Tab>("trending");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [items, setItems] = useState<Creation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [initialLoaded, setInitialLoaded] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
 
   const loaderRef = useRef<HTMLDivElement>(null);
+  const fetchingRef = useRef(false); // prevent concurrent fetches
 
   // ─── Fetch data ───
   const fetchCreations = useCallback(
     async (pageNum: number, reset = false) => {
+      if (fetchingRef.current) return;
+      fetchingRef.current = true;
       setLoading(true);
+
       const from = pageNum * PAGE_SIZE;
       const to = from + PAGE_SIZE - 1;
 
-      // Use explicit FK hint: creations.user_id → profiles.id
-      // If no FK exists yet, fall back to just creations columns
-      let query = supabase
-        .from("creations")
-        .select("*, profiles:user_id(id, nickname, avatar_url)")
-        .eq("visibility", "public");
+      try {
+        let query = supabase
+          .from("creations")
+          .select("*, profiles:user_id(id, nickname, avatar_url)")
+          .eq("visibility", "public");
 
-      // Category filter
-      if (categoryFilter) {
-        query = query.eq("category", categoryFilter);
-      }
-
-      // Tab ordering
-      if (tab === "trending") {
-        query = query.order("view_count", { ascending: false });
-      } else if (tab === "latest") {
-        query = query.order("created_at", { ascending: false });
-      } else if (tab === "following" && userId) {
-        // Get followed user IDs first
-        const { data: follows } = await supabase
-          .from("follows")
-          .select("following_id")
-          .eq("follower_id", userId);
-
-        const followedIds = follows?.map((f) => f.following_id) ?? [];
-        if (followedIds.length === 0) {
-          setItems(reset ? [] : (prev) => prev);
-          setHasMore(false);
-          setLoading(false);
-          if (reset) setItems([]);
-          return;
+        if (categoryFilter) {
+          query = query.eq("category", categoryFilter);
         }
-        query = query
-          .in("user_id", followedIds)
-          .order("created_at", { ascending: false });
-      }
 
-      const { data, error } = await query.range(from, to);
+        if (tab === "trending") {
+          query = query.order("view_count", { ascending: false });
+        } else if (tab === "latest") {
+          query = query.order("created_at", { ascending: false });
+        } else if (tab === "following" && userId) {
+          const { data: follows } = await supabase
+            .from("follows")
+            .select("following_id")
+            .eq("follower_id", userId);
 
-      if (error) {
-        console.error("Fetch error:", {
-          message: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code,
-        });
-        // If the join fails (no FK), retry without profiles join
-        if (error.code === "PGRST200" || error.message?.includes("relationship")) {
-          const fallback = supabase
-            .from("creations")
-            .select("*")
-            .eq("visibility", "public");
-
-          if (categoryFilter) fallback.eq("category", categoryFilter);
-          if (tab === "trending") fallback.order("view_count", { ascending: false });
-          else fallback.order("created_at", { ascending: false });
-
-          const { data: fbData } = await fallback.range(from, to);
-          const fbRows = (fbData ?? []).map((r: any) => ({ ...r, profiles: null })) as Creation[];
-          if (reset) setItems(fbRows);
-          else setItems((prev) => [...prev, ...fbRows]);
-          setHasMore(fbRows.length === PAGE_SIZE);
-          setLoading(false);
-          return;
+          const followedIds = follows?.map((f) => f.following_id) ?? [];
+          if (followedIds.length === 0) {
+            if (reset) setItems([]);
+            setHasMore(false);
+            setLoading(false);
+            setInitialLoaded(true);
+            fetchingRef.current = false;
+            return;
+          }
+          query = query
+            .in("user_id", followedIds)
+            .order("created_at", { ascending: false });
         }
+
+        const { data, error } = await query.range(from, to);
+
+        if (error) {
+          console.error("Fetch error:", {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code,
+          });
+
+          // Fallback: retry without profiles join if FK is missing
+          if (error.code === "PGRST200" || error.message?.includes("relationship")) {
+            const fb = supabase
+              .from("creations")
+              .select("*")
+              .eq("visibility", "public");
+
+            if (categoryFilter) fb.eq("category", categoryFilter);
+            if (tab === "trending") fb.order("view_count", { ascending: false });
+            else fb.order("created_at", { ascending: false });
+
+            const { data: fbData } = await fb.range(from, to);
+            const fbRows = (fbData ?? []).map((r: any) => ({ ...r, profiles: null })) as Creation[];
+            if (reset) setItems(fbRows);
+            else setItems((prev) => [...prev, ...fbRows]);
+            setHasMore(fbRows.length === PAGE_SIZE);
+          } else {
+            if (reset) setItems([]);
+            setHasMore(false);
+          }
+        } else {
+          const rows = (data as Creation[]) ?? [];
+          if (reset) {
+            setItems(rows);
+          } else {
+            setItems((prev) => [...prev, ...rows]);
+          }
+          setHasMore(rows.length === PAGE_SIZE);
+        }
+      } finally {
         setLoading(false);
-        return;
+        setInitialLoaded(true);
+        fetchingRef.current = false;
       }
-
-      const rows = (data as Creation[]) ?? [];
-      if (reset) {
-        setItems(rows);
-      } else {
-        setItems((prev) => [...prev, ...rows]);
-      }
-      setHasMore(rows.length === PAGE_SIZE);
-      setLoading(false);
     },
+    // supabase is stable (useMemo), tab/categoryFilter/userId are primitives
     [supabase, tab, categoryFilter, userId]
   );
 
-  // Reset on tab/category change
+  // ─── Initial load + reset on tab/category change ───
   useEffect(() => {
     setPage(0);
     setHasMore(true);
+    setInitialLoaded(false);
     fetchCreations(0, true);
-  }, [tab, categoryFilter]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchCreations]);
 
-  // Load more on page change (skip initial)
+  // ─── Load more on page increment (skip page 0 — handled above) ───
   useEffect(() => {
     if (page > 0) {
       fetchCreations(page);
     }
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ─── Intersection Observer ───
+  // ─── Intersection Observer (stable — no loading in deps) ───
   useEffect(() => {
     const el = loaderRef.current;
     if (!el) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasMore && !loading) {
+        // Only trigger if visible, not currently fetching, and more data exists
+        if (entries[0].isIntersecting && !fetchingRef.current) {
           setPage((prev) => prev + 1);
         }
       },
@@ -159,7 +171,7 @@ export default function HomeFeed({ userId }: { userId: string | null }) {
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [hasMore, loading]);
+  }, []); // stable — uses refs instead of state
 
   // ─── Category tabs ───
   const categoryTabs = [
@@ -227,7 +239,7 @@ export default function HomeFeed({ userId }: { userId: string | null }) {
           </div>
 
           {/* ─── Card Grid ─── */}
-          {items.length === 0 && !loading ? (
+          {initialLoaded && items.length === 0 && !loading ? (
             <div className="flex flex-col items-center justify-center py-20">
               <svg
                 className="mb-4 h-12 w-12 text-gray-300 dark:text-gray-600"
@@ -257,14 +269,14 @@ export default function HomeFeed({ userId }: { userId: string | null }) {
 
               {/* Skeleton loading */}
               {loading &&
-                Array.from({ length: page === 0 ? 8 : 4 }).map((_, i) => (
+                Array.from({ length: items.length === 0 ? 8 : 4 }).map((_, i) => (
                   <SkeletonCard key={`skel-${i}`} />
                 ))}
             </div>
           )}
 
           {/* Infinite scroll trigger */}
-          <div ref={loaderRef} className="h-4" />
+          {hasMore && <div ref={loaderRef} className="h-4" />}
 
           {loading && items.length > 0 && (
             <p className="py-4 text-center text-sm text-gray-400">
@@ -284,7 +296,7 @@ function CreationCard({ item }: { item: Creation }) {
 
   return (
     <Link
-      href={`/creation/${item.id}`}
+      href={`/c/${item.id}`}
       className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition duration-200 hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
     >
       {/* Thumbnail */}
