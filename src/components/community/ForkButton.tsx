@@ -131,7 +131,7 @@ export default function ForkButton({ creationId, authorId }: Props) {
 
     if (originalTags && originalTags.length > 0) {
       await supabase.from("creation_tags").insert(
-        originalTags.map((ct) => ({
+        originalTags.map((ct: any) => ({
           creation_id: forked.id,
           tag_id: ct.tag_id,
         }))
@@ -170,7 +170,7 @@ export default function ForkButton({ creationId, authorId }: Props) {
       return;
     }
 
-    const ids = forkRows.map((r) => r.forked_creation_id);
+    const ids = forkRows.map((r: any) => r.forked_creation_id);
     const { data: creations } = await supabase
       .from("creations")
       .select("id, title, user_id")

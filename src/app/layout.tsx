@@ -4,6 +4,7 @@ import { getLocale, getMessages } from "next-intl/server";
 import Providers from "@/components/Providers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AuthListener from "@/components/AuthListener";
 import AdScript from "@/components/ads/AdScript";
 import "./globals.css";
 
@@ -37,6 +38,7 @@ export default async function RootLayout({
       <body className="flex min-h-screen flex-col bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100">
         <Providers>
           <NextIntlClientProvider messages={messages}>
+            <AuthListener />
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />

@@ -81,7 +81,7 @@ export default function HomeFeed({ userId }: { userId: string | null }) {
             .select("following_id")
             .eq("follower_id", userId);
 
-          const followedIds = follows?.map((f) => f.following_id) ?? [];
+          const followedIds = follows?.map((f: any) => f.following_id) ?? [];
           if (followedIds.length === 0) {
             if (reset) setItems([]);
             setHasMore(false);

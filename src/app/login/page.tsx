@@ -2,16 +2,32 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
   const t = useTranslations("login");
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [checking, setChecking] = useState(true);
   const supabase = createClient();
+
+  // If already logged in, redirect to home
+  useEffect(() => {
+    async function check() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        router.replace("/");
+      } else {
+        setChecking(false);
+      }
+    }
+    check();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOAuthLogin = async (provider: "google" | "github") => {
     if (!agreed) return;
@@ -43,6 +59,15 @@ export default function LoginPage() {
     }
     setLoading(false);
   };
+
+  // Show loading while checking auth state
+  if (checking) {
+    return (
+      <div className="flex flex-1 items-center justify-center py-20">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-gray-900 dark:border-gray-700 dark:border-t-white" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-1 items-center justify-center px-4 py-12">

@@ -23,9 +23,11 @@ export default function ReportButton({ creationId }: ReportButtonProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    async function loadUser() {
+      const { data: { user } } = await supabase.auth.getUser();
       setUserId(user?.id ?? null);
-    });
+    }
+    loadUser();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Close on outside click

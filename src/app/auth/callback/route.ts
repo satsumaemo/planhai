@@ -10,10 +10,28 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      // Use 307 to ensure browser follows redirect immediately
+      const redirectUrl = new URL(next, origin);
+      return NextResponse.redirect(redirectUrl.toString(), { status: 307 });
     }
   }
 
-  // 에러 시 로그인 페이지로 리다이렉트
+  // Also handle token_hash for magic link / email OTP
+  const tokenHash = searchParams.get("token_hash");
+  const type = searchParams.get("type");
+
+  if (tokenHash && type) {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.verifyOtp({
+      token_hash: tokenHash,
+      type: type as any,
+    });
+    if (!error) {
+      const redirectUrl = new URL(next, origin);
+      return NextResponse.redirect(redirectUrl.toString(), { status: 307 });
+    }
+  }
+
+  // Error: redirect to login
   return NextResponse.redirect(`${origin}/login`);
 }

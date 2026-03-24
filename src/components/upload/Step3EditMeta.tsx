@@ -165,7 +165,7 @@ export default function Step3EditMeta({
         .in("name", tags);
 
       if (tagData && tagData.length > 0) {
-        const creationTags = tagData.map((t) => ({
+        const creationTags = tagData.map((t: any) => ({
           creation_id: data.id,
           tag_id: t.id,
         }));
